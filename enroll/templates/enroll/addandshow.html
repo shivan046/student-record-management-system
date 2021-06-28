@@ -1,0 +1,52 @@
+{% extends 'enroll/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-4">
+        <h4 class="alert alert-info text-center">Add New Student</h4>
+        <form action="/" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+                <label for="field.id_for_label" class="form-label">{{field.label}}</label>
+                {{field}}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">ADD</button>
+        </form>
+    </div>
+    <div class="col-sm-7 offset-sm-1">
+        <h4 class="alert alert-info text-center">Show Student Information</h4>
+        {% if stu %}
+        <table class="table  table-hover">
+            <thead>
+                <tr class="text-center">
+                    <th class="text-center" scope="col">ID</th>
+                    <th class="text-center" scope="col">Name</th>
+                    <th class="text-center" scope="col">Email</th>
+                    <th class="text-center" scope="col">Password</th>
+                    <th class="text-center" colspan="2" scope="col">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+             {% for student in stu %}
+                <tr class="text-center table-success">
+                    <th class="text-center" scope="row">{{student.pk}}</th>
+                    <td class="text-center">{{student.name}}</td>
+                    <td class="text-center">{{student.email}}</td>
+                    <td class="text-center">{{student.password}}</td>
+                    <td><a href="{% url 'updatedata' student.id %}" class="btn btn-warning btn-sm">Edit</a></td>
+                    <td><a href="{% url 'deletedata' student.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+
+
+                </tr>
+             {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h4 class="text-center alert alert-warning">No Records</h4>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
